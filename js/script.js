@@ -4,8 +4,8 @@ class Fighter {
     this.slogan = slogan;
     this.superPowers = [superPower1, superPower2, superPower3];
     this.baseLife = 50;
-    this.armor = 10;
     this.armorModifier = armorModifier;
+    this.armor = 10 + this.armorModifier;
     this.life = this.baseLife + this.armor;
   }
 
@@ -26,8 +26,8 @@ class Fighter {
 
 }
 
-var kurt = new Fighter('Kurt', 'hello');
-var dawn = new Fighter('Dawn', 'goodbye');
+var kurt = new Fighter('Kurt', 'hello', 5);
+var dawn = new Fighter('Dawn', 'goodbye', 5);
 
 function battle(fighter1, fighter2) {
   console.log(fighter1.slogan);
