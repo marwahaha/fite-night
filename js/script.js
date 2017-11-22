@@ -1,15 +1,17 @@
 class Fighter {
   constructor(name, slogan, profession){
+    //properties shared by all professions
     this.name = name;
     this.slogan = slogan;
     this.profession = profession;
-    this.baseHealth = 100;
+    this.baseHealth = 200;
     this.baseArmor = 10;
     this.physArmor = 50;
     this.magicalArmor = 10;
     this.physHealthModifier = 20;
     this.magicalHealthModifier = 20;
 
+    //calculates main stats based on profession
     if (profession === 'Berserker' || profession === 'berserker') {
       this.basePower = 30;
       this.armorModifier = this.physArmor;
@@ -37,36 +39,37 @@ class Fighter {
       this.superPowers = 'backstab';
     } else if (profession === 'Blast Mage' || profession === 'blast mage') {
       this.basePower = 0;
-      this.baseMagicPower = 30;
+      this.baseMagicPower = 50;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'fireblast', 'magic shield'];
     } else if (profession === 'Cleric' || profession === 'cleric') {
       this.basePower = 0;
-      this.baseMagicPower = 10;
+      this.baseMagicPower = 20;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier + 10;
       this.superPowers = ['fireball', 'heal', 'magic shield'];
     } else if (profession === 'Battle Mage' || profession === 'battle mage') {
       this.basePower = 0;
-      this.baseMagicPower = 20;
+      this.baseMagicPower = 30;
       this.armorModifier = this.magicalArmor + 10;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'fireblast'];
     } else if (profession === 'Illusionist' || profession === 'illusionist') {
       this.basePower = 0;
-      this.baseMagicPower = 20;
+      this.baseMagicPower = 30;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'magic shield'];
     } else if (profession === 'Warlock' || profession === 'warlock') {
       this.basePower = 0;
-      this.baseMagicPower = 20;
+      this.baseMagicPower = 50;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'sacrifice', 'curse', 'drain'];
     }
 
+    //recalculates health stats based on profession
     this.health = this.baseHealth + this.healthModifier;
     this.armor = this.baseArmor + this.armorModifier;
     this.life = this.health + this.armor;
@@ -75,6 +78,7 @@ class Fighter {
 
     var magicalProfessions = ['Blast Mage', 'blast mage', 'Cleric', 'cleric', 'Battle Mage', 'battle mage', 'Illusionist', 'illusionist', 'Warlock', 'warlock']
 
+    //determines fighter weapon type, used in battle calculations
     if (physicalProfessions.indexOf(this.profession) >= 0) {
       this.type = 'physical';
     } else if (magicalProfessions.indexOf(this.profession) >= 0) {
@@ -85,7 +89,7 @@ class Fighter {
   }
 
 
-
+  //function called to give each fighter a random weapon at battle-start
   getWeapon() {
    var weaponNumber = Math.floor(Math.random() * (Math.floor(5)-Math.ceil(0)) + Math.ceil(0));
 
@@ -130,23 +134,28 @@ class Fighter {
     //include magic shield in superPowers
   }
 
+  //recalculates weapon and magic power taking into account after weapons are received
   this.attackPower = this.basePower + this.weaponPower;
   this.magicPower = this.baseMagicPower + this.magicPower;
 }
 }
 
-
-
+//creates the different fighters
 var kurt = new Fighter('Kurt', 'hello', "berserker");
 var dawn = new Fighter('Dawn', 'goodbye', 'brawler');
 var jesse = new Fighter('Jesse', 'goodday', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
 
+//function used to initiate battle between the fighters passed in as arguments
 function battle(fighter1, fighter2) {
   console.log(fighter1.slogan);
   console.log(fighter2.slogan);
+
+  //gives each fighter a random weapon to fight with
   fighter1.getWeapon();
   fighter2.getWeapon();
+
+  //main fight code, runs until one fighter is defeated
   while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
     if (fighter2.type === 'physical') {
     fighter1.life -= fighter2.attackPower;
@@ -163,17 +172,20 @@ function battle(fighter1, fighter2) {
   }
   }
 
-  if ((fighter1.life <= 0) && (fighter2.life > 0)) {
+  //determines who the winner is after one player's life or health has been depleted
+  if (((fighter1.life <= 0) || (fighter1.health <= 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
     console.log(fighter2.name + " wins!!!");
-  } else if ((fighter2.life <= 0) && (fighter1.life > 0)) {
+  } else if (((fighter2.life <= 0) || (fighter2.health <= 0)) && ((fighter1.life > 0) && (fighter1.health > 0))) {
     console.log(fighter1.name + " wins!!!");
   } else {
     console.log("Both fighters have passed out!!! It's a draw!!!");
   }
 
-  //resets player's lives after battle
+  //resets player's lives and defensive stats after battle
   fighter1.health = fighter1.baseHealth + fighter1.healthModifier;
   fighter2.health = fighter2.baseHealth + fighter2.healthModifier;
+  fighter1.armor = fighter1.baseArmor + fighter1.armorModifier;
+  fighter2.armor = fighter2.baseArmor + fighter2.armorModifier;
   fighter1.life = fighter1.health + fighter1.armor;
   fighter2.life = fighter2.health + fighter2.armor;
 }
