@@ -96,23 +96,23 @@ class Fighter {
    if (weaponNumber === 0) {
     this.weapon = 'bare knuckles';
     this.weaponPower = 0;
-    this.magicPower = 0;
+    this.weaponMagicPower = 0;
   } else if (weaponNumber === 1) {
     this.weapon = 'wand';
     this.weaponPower = 10;
-    this.magicPower = 30;
+    this.weaponMagicPower = 30;
   } else if (weaponNumber === 2) {
     this.weapon = 'dagger';
     this.weaponPower = 30;
-    this.magicPower = 0;
+    this.weaponMagicPower = 0;
   } else if (weaponNumber === 3) {
     this.weapon = 'sword';
     this.weaponPower = 40;
-    this.magicPower = 0;
+    this.weaponMagicPower = 0;
   } else if (weaponNumber === 4) {
     this.weapon = 'greatsword';
     this.weaponPower = 50;
-    this.magicPower = 0;
+    this.weaponMagicPower = 0;
   }
 
   //call weapon based inate powers here
@@ -136,7 +136,7 @@ class Fighter {
 
   //recalculates weapon and magic power taking into account after weapons are received
   this.attackPower = this.basePower + this.weaponPower;
-  this.magicPower = this.baseMagicPower + this.magicPower;
+  this.magicPower = this.baseMagicPower + this.weaponMagicPower;
 }
 }
 
@@ -157,18 +157,47 @@ function battle(fighter1, fighter2) {
 
   //main fight code, runs until one fighter is defeated
   while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
+    var attackSpread = 15;
+    var fighter1attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
+    var fighter2attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
+    var fighter1magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
+    var fighter2magicAttack = Math.floor(Math.random() * (Math.floor(fighter2.magicPower)-Math.ceil((fighter2.magicPower - attackSpread))) + Math.ceil((fighter2.magicPower - attackSpread)));
     if (fighter2.type === 'physical') {
-    fighter1.life -= fighter2.attackPower;
-    console.log(fighter2.name + " damages " + fighter1.name + ' for ' + fighter2.attackPower);
+    fighter1.life -= fighter2attack;
+    console.log(fighter2.name + " damages " + fighter1.name + ' for ' + fighter2attack);
   } if (fighter1.type === 'physical') {
-    fighter2.life -= fighter1.attackPower;
-    console.log(fighter1.name + " damages " + fighter2.name + ' for ' + fighter1.attackPower);
+    fighter2.life -= fighter1attack;
+    console.log(fighter1.name + " damages " + fighter2.name + ' for ' + fighter1attack);
   } if (fighter2.type === 'magical') {
-    fighter1.health -= fighter2.magicPower;
-    console.log(fighter2.name + ' burns ' + fighter2.name + ' for ' + fighter2.magicPower);
+
+    if (fighter1.type === 'physical') {
+      var spellBreak = Math.floor(Math.random() * (Math.floor(5)-Math.ceil((0))) + Math.ceil((0)));
+      if (spellBreak === 0) {
+        fighter2magicAttack = 0;
+      }
+    }
+
+    if (!(fighter2magicAttack === 0)) {
+    fighter1.health -= fighter2magicAttack;
+    console.log(fighter2.name + ' burns ' + fighter2.name + ' for ' + fighter2magicAttack);
+  } else {
+    console.log(fighter1.name + " broke " + fighter2.name + "'s spell!")
+  }
   } if (fighter1.type === 'magical') {
-    fighter2.health -= fighter1.magicPower;
-    console.log(fighter1.name + ' burns ' + fighter2.name + ' for ' + fighter1.magicPower);
+
+    if (fighter2.type === 'physical') {
+      var spellBreak = Math.floor(Math.random() * (Math.floor(5)-Math.ceil((0))) + Math.ceil((0)));
+      if (spellBreak === 0) {
+        fighter1magicAttack = 0;
+      }
+    }
+
+    if (!(fighter1magicAttack === 0)) {
+    fighter2.health -= fighter1magicAttack;
+    console.log(fighter1.name + ' burns ' + fighter2.name + ' for ' + fighter2magicAttack);
+  } else {
+    console.log(fighter2.name + " broke " + fighter1.name + "'s spell!")
+  }
   }
   }
 
