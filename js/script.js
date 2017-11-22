@@ -3,9 +3,9 @@ class Fighter {
     this.name = name;
     this.slogan = slogan;
     this.profession = profession;
-    this.baseHealth = 50;
+    this.baseHealth = 100;
     this.baseArmor = 10;
-    this.physArmor = 20;
+    this.physArmor = 50;
     this.magicalArmor = 10;
     this.physHealthModifier = 20;
     this.magicalHealthModifier = 20;
@@ -14,33 +14,77 @@ class Fighter {
       this.basePower = 30;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier;
-      this.superPowers = 'Berserker Mode'
+      this.superPowers = 'Berserker Mode';
     } else if (profession === 'Brawler' || profession === 'brawler') {
       this.basePower = 10;
       this.armorModifier = this.physArmor;
-      this.healthModifier = this.physHealthModifier
-      this.superPowers = ['armorUp', 'powerUp']
+      this.healthModifier = this.physHealthModifier;
+      this.superPowers = ['armorUp', 'powerUp'];
     } else if (profession === 'Fighter' || profession === 'fighter') {
-
+      this.basePower = 20;
+      this.armorModifier = this.physArmor;
+      this.healthModifier = this.physHealthModifier + 10;
+      this.superPowers = ['powerUp'];
     } else if (profession === 'Warrior' || profession === 'warrior') {
-
+      this.basePower = 20;
+      this.armorModifier = this.physArmor;
+      this.healthModifier = this.physHealthModifier;
+      this.superPowers = 'armorUp';
     } else if (profession === 'Assassin' || profession === 'assassin') {
-
+      this.basePower = 30;
+      this.armorModifier = this.magicalArmor;
+      this.healthModifier = this.magicalHealthModifier;
+      this.superPowers = 'backstab';
     } else if (profession === 'Blast Mage' || profession === 'blast mage') {
-
+      this.basePower = 0;
+      this.baseMagicPower = 30;
+      this.armorModifier = this.magicalArmor;
+      this.healthModifier = this.magicalHealthModifier;
+      this.superPowers = ['fireball', 'fireblast', 'magic shield'];
     } else if (profession === 'Cleric' || profession === 'cleric') {
-
+      this.basePower = 0;
+      this.baseMagicPower = 10;
+      this.armorModifier = this.magicalArmor;
+      this.healthModifier = this.magicalHealthModifier + 10;
+      this.superPowers = ['fireball', 'heal', 'magic shield'];
     } else if (profession === 'Battle Mage' || profession === 'battle mage') {
-
+      this.basePower = 0;
+      this.baseMagicPower = 20;
+      this.armorModifier = this.magicalArmor + 10;
+      this.healthModifier = this.magicalHealthModifier;
+      this.superPowers = ['fireball', 'fireblast'];
     } else if (profession === 'Illusionist' || profession === 'illusionist') {
-
+      this.basePower = 0;
+      this.baseMagicPower = 20;
+      this.armorModifier = this.magicalArmor;
+      this.healthModifier = this.magicalHealthModifier;
+      this.superPowers = ['fireball', 'magic shield'];
     } else if (profession === 'Warlock' || profession === 'warlock') {
-
+      this.basePower = 0;
+      this.baseMagicPower = 20;
+      this.armorModifier = this.magicalArmor;
+      this.healthModifier = this.magicalHealthModifier;
+      this.superPowers = ['fireball', 'sacrifice', 'curse', 'drain'];
     }
+
     this.health = this.baseHealth + this.healthModifier;
     this.armor = this.baseArmor + this.armorModifier;
     this.life = this.health + this.armor;
+
+    var physicalProfessions = ['Berserker', 'berserker', 'Brawler', 'brawler', 'Fighter', 'fighter', 'Warrior', 'warrior', 'Assassin', 'assassin'];
+
+    var magicalProfessions = ['Blast Mage', 'blast mage', 'Cleric', 'cleric', 'Battle Mage', 'battle mage', 'Illusionist', 'illusionist', 'Warlock', 'warlock']
+
+    if (physicalProfessions.indexOf(this.profession) >= 0) {
+      this.type = 'physical';
+    } else if (magicalProfessions.indexOf(this.profession) >= 0) {
+      this.type = 'magical';
+    } else {
+      this.type = 'civilian';
+    }
   }
+
+
 
   getWeapon() {
    var weaponNumber = Math.floor(Math.random() * (Math.floor(5)-Math.ceil(0)) + Math.ceil(0));
@@ -71,20 +115,31 @@ class Fighter {
   if (((this.profession === 'Berserker') || (this.profession === 'berserker')) && (this.weapon === 'greatsword')) {
     this.weaponPower += 20;
     console.log('Imma tear you up!');
-  } else if ((this.profession === 'Brawler' || this.profession === 'Brawler') && (this.weapon === 'bare knuckles')) {
+  } else if ((this.profession === 'Brawler' || this.profession === 'brawler') && (this.weapon === 'bare knuckles')) {
     this.weaponPower += 50;
     console.log("It's bare knuckle time!");
   } else if (((this.profession === 'Warrior') || (this.profession === 'warrior')) && (this.weapon === 'sword')) {
     this.armor += 10;
+  } else if (((this.profession === 'Assassin') || (this.profession === 'assassin')) && (this.weapon === 'dagger')) {
+    this.weaponPower += 50;
+  } else if (((this.profession === 'Blast Mage') || (this.profession === 'blast mage')) && (this.weapon === 'wand')) {
+    this.weaponPower += 50;
+  } else if (((this.profession === 'Blast Mage') || (this.profession === 'battle mage')) && (this.weapon === 'wand')) {
+    //include magic shield in superPowers
+  } else if (((this.profession === 'Battle Mage') || (this.profession === 'battle mage')) && (this.weapon === 'wand')) {
+    //include magic shield in superPowers
   }
 
-  }
+  this.attackPower = this.basePower + this.weaponPower;
+}
 }
 
 
 
 var kurt = new Fighter('Kurt', 'hello', "berserker");
 var dawn = new Fighter('Dawn', 'goodbye', 'brawler');
+var jesse = new Fighter('Jesse', 'goodday', 'assassin');
+var john = new Fighter('John', 'hi', 'warlock');
 
 function battle(fighter1, fighter2) {
   console.log(fighter1.slogan);
@@ -92,8 +147,10 @@ function battle(fighter1, fighter2) {
   fighter1.getWeapon();
   fighter2.getWeapon();
   while ((fighter1.life > 0) && (fighter2.life > 0)) {
-    fighter1.life -= fighter2.weaponPower;
-    fighter2.life -= fighter1.weaponPower;
+    fighter1.life -= fighter2.attackPower;
+    console.log(fighter2.name + " damages " + fighter1.name + ' for ' + fighter2.attackPower);
+    fighter2.life -= fighter1.attackPower;
+    console.log(fighter1.name + " damages " + fighter2.name + ' for ' + fighter1.attackPower);
   }
 
   if ((fighter1.life <= 0) && (fighter2.life > 0)) {
@@ -104,6 +161,6 @@ function battle(fighter1, fighter2) {
     console.log("Both fighters have passed out!!! It's a draw!!!");
   }
 
-  fighter1.life = 50 + fighter1.armor;
-  fighter2.life = 50 + fighter2.armor;
+  fighter1.life = fighter1.health + fighter1.armor;
+  fighter2.life = fighter2.health + fighter2.armor;
 }
