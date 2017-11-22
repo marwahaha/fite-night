@@ -158,6 +158,8 @@ function battle(fighter1, fighter2) {
   //main fight code, runs until one fighter is defeated
   while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
     var attackSpread = 15;
+    var spellBreakPercentageModifier = 5;
+    var dodgePercentageModifier = 5;
     var fighter1attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
     var fighter2attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
     var fighter1magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
@@ -169,9 +171,9 @@ function battle(fighter1, fighter2) {
     fighter2.life -= fighter1attack;
     console.log(fighter1.name + " damages " + fighter2.name + ' for ' + fighter1attack);
   } if (fighter2.type === 'magical') {
-
+    //spellbreak mechanic
     if (fighter1.type === 'physical') {
-      var spellBreak = Math.floor(Math.random() * (Math.floor(5)-Math.ceil((0))) + Math.ceil((0)));
+      var spellBreak = Math.floor(Math.random() * (Math.floor(spellBreakPercentageModifier)-Math.ceil((0))) + Math.ceil((0)));
       if (spellBreak === 0) {
         fighter2magicAttack = 0;
       }
@@ -184,9 +186,9 @@ function battle(fighter1, fighter2) {
     console.log(fighter1.name + " broke " + fighter2.name + "'s spell!")
   }
   } if (fighter1.type === 'magical') {
-
+    //spellbreak mechanic
     if (fighter2.type === 'physical') {
-      var spellBreak = Math.floor(Math.random() * (Math.floor(5)-Math.ceil((0))) + Math.ceil((0)));
+      var spellBreak = Math.floor(Math.random() * (Math.floor(spellBreakPercentageModifier)-Math.ceil((0))) + Math.ceil((0)));
       if (spellBreak === 0) {
         fighter1magicAttack = 0;
       }

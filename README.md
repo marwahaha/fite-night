@@ -38,7 +38,7 @@ Below are the current professions.
 
 ### Magical Professions:
 
-*All mages have a finite amount of mana and all magic special abilties will have a mana cost. In addition, although magic attacks and special abilties ignore armor, as long as a physical profession type has armor, they have a 20% chance to spellbreak, negating any damage done.*
+*All mages have a finite amount of mana and all magic special abilties will have a mana cost.* In addition, although magic attacks and special abilties ignore armor, as long as a physical profession type has armor, they have a 20% chance to spellbreak, negating any damage done.
 
 - Blast Mage: high magic attack, low armor, low health
         *2 special abilities: fireblast (high damage, high cost); magic shield (increases armor, medium cost)*
