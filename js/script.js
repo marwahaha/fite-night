@@ -131,6 +131,7 @@ class Fighter {
   }
 
   this.attackPower = this.basePower + this.weaponPower;
+  this.magicPower = this.baseMagicPower + this.magicPower;
 }
 }
 
@@ -146,11 +147,20 @@ function battle(fighter1, fighter2) {
   console.log(fighter2.slogan);
   fighter1.getWeapon();
   fighter2.getWeapon();
-  while ((fighter1.life > 0) && (fighter2.life > 0)) {
+  while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
+    if (fighter2.type === 'physical') {
     fighter1.life -= fighter2.attackPower;
     console.log(fighter2.name + " damages " + fighter1.name + ' for ' + fighter2.attackPower);
+  } if (fighter1.type === 'physical') {
     fighter2.life -= fighter1.attackPower;
     console.log(fighter1.name + " damages " + fighter2.name + ' for ' + fighter1.attackPower);
+  } if (fighter2.type === 'magical') {
+    fighter1.health -= fighter2.magicPower;
+    console.log(fighter2.name + ' burns ' + fighter2.name + ' for ' + fighter2.magicPower);
+  } if (fighter1.type === 'magical') {
+    fighter2.health -= fighter1.magicPower;
+    console.log(fighter1.name + ' burns ' + fighter2.name + ' for ' + fighter1.magicPower);
+  }
   }
 
   if ((fighter1.life <= 0) && (fighter2.life > 0)) {
@@ -161,6 +171,9 @@ function battle(fighter1, fighter2) {
     console.log("Both fighters have passed out!!! It's a draw!!!");
   }
 
+  //resets player's lives after battle
+  fighter1.health = fighter1.baseHealth + fighter1.healthModifier;
+  fighter2.health = fighter2.baseHealth + fighter2.healthModifier;
   fighter1.life = fighter1.health + fighter1.armor;
   fighter2.life = fighter2.health + fighter2.armor;
 }
