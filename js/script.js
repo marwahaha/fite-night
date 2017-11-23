@@ -144,13 +144,17 @@ class Fighter {
 
 }
 
-//creates the different fighters
+//variable declarations
 var kurt = new Fighter('Kurt', 'hello', "berserker");
 var dawn = new Fighter('Dawn', 'goodbye', 'brawler');
 var jesse = new Fighter('Jesse', 'goodday', 'assassin');
 var jay = new Fighter('Jay', 'and a goodday to you', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
 var amy = new Fighter('Amy', 'argh matey', 'illusionist');
+var buttonFightTrigger = document.querySelector("#start-fite-night");
+var attackButtonTrigger = document.querySelector("#heroAttack");
+var heroNameInput = document.querySelector('#hero-name');
+var heroProfessionInput = document.querySelector('#hero-profession');
 
 
 
@@ -167,29 +171,31 @@ function battle(fighter1, fighter2) {
   while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
 
 
+
     var attackSpread = 15;
-    fighter1.attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
-    fighter2.attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
-    fighter1.magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
-    fighter2.magicAttack = Math.floor(Math.random() * (Math.floor(fighter2.magicPower)-Math.ceil((fighter2.magicPower - attackSpread))) + Math.ceil((fighter2.magicPower - attackSpread)));
-    if (fighter2.type === 'physical') {
-      dodgeMe(fighter1, fighter2);
-      battleResolution(fighter2, fighter1);
-  } if (fighter1.type === 'physical') {
-      dodgeMe(fighter2, fighter1);
-      battleResolution(fighter1, fighter2);
-      opponentHealthCheck(fighter2);
-      warlockInnate(fighter2);
-      //opponentHealthCheck(fighter2);
-  } if (fighter2.type === 'magical') {
-      spellBreak(fighter1, fighter2);
-      dodgeMe(fighter1, fighter2);
-      battleResolution(fighter2, fighter1);
-  } if (fighter1.type === 'magical') {
-      spellBreak(fighter2, fighter1);
-      dodgeMe(fighter2, fighter1);
-      battleResolution(fighter1, fighter2);
-  }
+  //   fighter1.attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
+  //   fighter1.magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
+  //
+  //   fighter2.attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
+  //   fighter2.magicAttack = Math.floor(Math.random() * (Math.floor(fighter2.magicPower)-Math.ceil((fighter2.magicPower - attackSpread))) + Math.ceil((fighter2.magicPower - attackSpread)));
+  //
+  //   if (fighter1.type === 'physical') {
+  //       dodgeMe(fighter2, fighter1);
+  //       battleResolution(fighter1, fighter2);
+  //   } if (fighter1.type === 'magical') {
+  //       spellBreak(fighter2, fighter1);
+  //       dodgeMe(fighter2, fighter1);
+  //       battleResolution(fighter1, fighter2);
+  //
+  //   } if (fighter2.type === 'physical') {
+  //     dodgeMe(fighter1, fighter2);
+  //     battleResolution(fighter2, fighter1);
+  //   } if (fighter2.type === 'magical') {
+  //     spellBreak(fighter1, fighter2);
+  //     dodgeMe(fighter1, fighter2);
+  //     battleResolution(fighter2, fighter1);
+  // }
+  attackButtonTrigger.addEventListener("click", fighter1attacks);
 }
 
   //determines who the winner is after one player's life or health has been depleted
@@ -315,11 +321,7 @@ function armorUp(attacker) {
 }
 
 //interaction portion
-var buttonFightTrigger = document.querySelector("#start-fite-night");
-var heroNameInput = document.querySelector('#hero-name');
-var heroProfessionInput = document.querySelector('#hero-profession');
-
-if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
+if (buttonFightTrigger && heroNameInput && heroProfessionInput && attackButtonTrigger) {
 
   buttonFightTrigger.addEventListener("click", function() {
     var heroName = heroNameInput.value;
@@ -332,4 +334,32 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
     battle(hero, opponent);
     console.log(hero.weapon);
   });
+
+  attackButtonTrigger.addEventListener("click", fighter1attacks());
+}
+
+function fighter1attacks() {
+  fighter1.attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
+  fighter1.magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
+  if (fighter1.type === 'physical') {
+      dodgeMe(fighter2, fighter1);
+      battleResolution(fighter1, fighter2);
+  } if (fighter1.type === 'magical') {
+      spellBreak(fighter2, fighter1);
+      dodgeMe(fighter2, fighter1);
+      battleResolution(fighter1, fighter2);
+    }
+}
+
+function fighter2attacks() {
+  fighter2.attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
+  fighter2.magicAttack = Math.floor(Math.random() * (Math.floor(fighter2.magicPower)-Math.ceil((fighter2.magicPower - attackSpread))) + Math.ceil((fighter2.magicPower - attackSpread)));
+  if (fighter2.type === 'physical') {
+    dodgeMe(fighter1, fighter2);
+    battleResolution(fighter2, fighter1);
+  } if (fighter2.type === 'magical') {
+    spellBreak(fighter1, fighter2);
+    dodgeMe(fighter1, fighter2);
+    battleResolution(fighter2, fighter1);
+}
 }
