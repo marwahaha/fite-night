@@ -16,7 +16,7 @@ class Fighter {
       this.basePower = 30;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier;
-      this.superPowers = 'Berserker Mode';
+      this.superPowers = ['Berserker Rage'];
     } else if (profession === 'Brawler' || profession === 'brawler') {
       this.basePower = 10;
       this.armorModifier = this.physArmor;
@@ -31,12 +31,12 @@ class Fighter {
       this.basePower = 20;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier;
-      this.superPowers = 'armorUp';
+      this.superPowers = ['armorUp'];
     } else if (profession === 'Assassin' || profession === 'assassin') {
       this.basePower = 30;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
-      this.superPowers = 'backstab';
+      this.superPowers = ['backstab'];
     } else if (profession === 'Blast Mage' || profession === 'blast mage') {
       this.basePower = 0;
       this.baseMagicPower = 50;
@@ -140,6 +140,8 @@ class Fighter {
   this.attackPower = this.basePower + this.weaponPower;
   this.magicPower = this.baseMagicPower + this.weaponMagicPower;
 }
+
+
 }
 
 //creates the different fighters
@@ -163,6 +165,8 @@ function battle(fighter1, fighter2) {
 
   //main fight code, runs until one fighter is defeated
   while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
+
+
     var attackSpread = 15;
     fighter1.attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
     fighter2.attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
@@ -176,7 +180,7 @@ function battle(fighter1, fighter2) {
       battleResolution(fighter1, fighter2);
       opponentHealthCheck(fighter2);
       warlockInnate(fighter2);
-      opponentHealthCheck(fighter2);
+      //opponentHealthCheck(fighter2);
   } if (fighter2.type === 'magical') {
       spellBreak(fighter1, fighter2);
       dodgeMe(fighter1, fighter2);
@@ -240,7 +244,7 @@ function battleResolution(attacker, opponent) {
     opponent.health -= attacker.magicAttack;
     console.log(attacker.name + ' burns ' + opponent.name + ' for ' + attacker.magicAttack);
     } else {
-      var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+      var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
       if (dodgeProfessions.indexOf(opponent.profession) >= 0) {
         console.log(opponent.name + " dodged " + attacker.name + "'s attack!");
       }else{
@@ -283,4 +287,49 @@ function warlockInnate(warlock) {
 function opponentHealthCheck(opponent) {
   console.log("Opponent's current health is: " + opponent.health);
   console.log("Opponent's current life is: " + opponent.life);
+}
+
+function blockAttack(defender) {
+  if (defender.type === 'physical') {
+    defender.armor += 30;
+  }
+}
+
+//special abilities
+function berserkerRage(attacker, opponent) {
+  if ((attacker.profession === 'Berserker') || (attacker.profession === 'berserker')) {
+    attacker.attackPower += 20;
+    opponent.attackPower += 20;
+    if (opponent.type === 'magical') {
+      opponent.magicPower += 10;
+    }
+  }
+}
+
+function attackUp(attacker) {
+  attacker.attackPower += 10;
+}
+
+function armorUp(attacker) {
+  attacker.life += 10;
+}
+
+//interaction portion
+var buttonFightTrigger = document.querySelector("#start-fite-night");
+var heroNameInput = document.querySelector('#hero-name');
+var heroProfessionInput = document.querySelector('#hero-profession');
+
+if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
+
+  buttonFightTrigger.addEventListener("click", function() {
+    var heroName = heroNameInput.value;
+    var heroProfession = heroProfessionInput.value;
+    var heroSlogan = 'foo';
+    var hero = new Fighter(heroName, heroSlogan, heroProfession);
+    var opponents = [kurt, dawn, jesse, jay, amy, john];
+    var opponent = opponents[2];
+    // console.log(heroName + heroProfession);
+    battle(hero, opponent);
+    console.log(hero.weapon);
+  });
 }
