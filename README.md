@@ -6,7 +6,7 @@ This program was intended to be a rpg fighting simulator, with 10 different prof
 
 The different professions can be broken down into physical and magical classes, with physical professions utilizing attack power and having higher starting health and armor than magical professions, which use magic power. Each profession has a set of abilities, some unique to the profession type and some unique to the specific profession, that they can utilize in battle, ranging from an increase in attack/magic power, an increase in armor, healing and so forth.
 
-### Note: abilities have not been implemented yet.
+### Note: special abilities have not been implemented yet.
 
 The goal of the battle is to decrease your opponents life points by either attacking directly or by using special abilities. Physical professions have to decrease their opponents health and armor down to 0, while magic profession's abilities ignore armor and just have to decrease an opponents health down to 0.
 
@@ -53,10 +53,10 @@ Below are the current professions.
 
 - Illusionist: medium magic attack, low armor, low health
         *1 special ability: magic shield (increases armor, medium cost)*
-        *innate ability: 20$ chance to "evade"(dodge) any attack. If an attack is evaded, magicPower is increased*
+        innate ability: 20$ chance to "evade"(dodge) any attack. If an attack is evaded, magicPower is increased
 
 - Warlock: medium magic attack, low armor, medium health
         *3 special abilities: sacrifice (converts own health to magicPower); curse (constantly damage enemies health by a small amount); drain (damages enemies health by a small amount, restores own health by a small amount)*
-        *innate ability: 10% chance of surviving a killing blow and restoring 10% of total health afterwards.*
+        innate ability: 10% chance of surviving a killing blow and restoring 10% of total health afterwards.
 
   As you can see, there is still a lot yet to be implemented, and this project is still a work in progress.

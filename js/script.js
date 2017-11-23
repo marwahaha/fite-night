@@ -124,14 +124,16 @@ class Fighter {
     console.log("It's bare knuckle time!");
   } else if (((this.profession === 'Warrior') || (this.profession === 'warrior')) && (this.weapon === 'sword')) {
     this.armor += 10;
+    console.log("Every sword needs a shield!")
   } else if (((this.profession === 'Assassin') || (this.profession === 'assassin')) && (this.weapon === 'dagger')) {
     this.weaponPower += 50;
+    console.log("A sword is made for battle. A dagger for killing")
   } else if (((this.profession === 'Blast Mage') || (this.profession === 'blast mage')) && (this.weapon === 'wand')) {
     this.weaponPower += 50;
-  } else if (((this.profession === 'Blast Mage') || (this.profession === 'battle mage')) && (this.weapon === 'wand')) {
-    //include magic shield in superPowers
+    console.log("The wand is mightier than the sword!")
   } else if (((this.profession === 'Battle Mage') || (this.profession === 'battle mage')) && (this.weapon === 'wand')) {
     //include magic shield in superPowers
+    console.log('If my wand is my sword, my mind is my shield.')
   }
 
   //recalculates weapon and magic power taking into account after weapons are received
@@ -144,6 +146,7 @@ class Fighter {
 var kurt = new Fighter('Kurt', 'hello', "berserker");
 var dawn = new Fighter('Dawn', 'goodbye', 'brawler');
 var jesse = new Fighter('Jesse', 'goodday', 'assassin');
+var jay = new Fighter('Jay', 'and a goodday to you', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
 var amy = new Fighter('Amy', 'argh matey', 'illusionist');
 
@@ -171,6 +174,9 @@ function battle(fighter1, fighter2) {
   } if (fighter1.type === 'physical') {
       dodgeMe(fighter2, fighter1);
       battleResolution(fighter1, fighter2);
+      opponentHealthCheck(fighter2);
+      warlockInnate(fighter2);
+      opponentHealthCheck(fighter2);
   } if (fighter2.type === 'magical') {
       spellBreak(fighter1, fighter2);
       dodgeMe(fighter1, fighter2);
@@ -179,18 +185,6 @@ function battle(fighter1, fighter2) {
       spellBreak(fighter2, fighter1);
       dodgeMe(fighter2, fighter1);
       battleResolution(fighter1, fighter2);
-
-  //   if (!(fighter1.magicAttack === 0)) {
-  //   fighter2.health -= fighter1.magicAttack;
-  //   console.log(fighter1.name + ' burns ' + fighter2.name + ' for ' + fighter1.magicAttack);
-  // } else {
-  //     var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
-  //     if (dodgeProfessions.indexOf(fighter2.profession) >= 0) {
-  //       console.log(fighter2.name + " dodged " + fighter1.name + "'s spell!");
-  //     }else{
-  //       console.log(fighter2.name + " broke " + fighter1.name + "'s spell!");
-  //     }
-  //   }
   }
 }
 
@@ -213,7 +207,7 @@ function battle(fighter1, fighter2) {
 }
 
 function dodgeMe(dodger, opponent) {
-  var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+  var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
 
   if (dodgeProfessions.indexOf(dodger.profession) >= 0) {
     var dodgePercentModifier = 4;
@@ -256,10 +250,10 @@ function battleResolution(attacker, opponent) {
 
   } else if (attacker.type === 'physical') {
     if (!(attacker.attack === 0)) {
-    opponent.health -= attacker.attack;
+    opponent.life -= attacker.attack;
     console.log(attacker.name + ' damages ' + opponent.name + ' for ' + attacker.attack);
     } else {
-      var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+      var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
       if (dodgeProfessions.indexOf(opponent.profession) >= 0) {
         console.log(opponent.name + " dodged " + attacker.name + "'s attack!");
       }
@@ -267,4 +261,26 @@ function battleResolution(attacker, opponent) {
 
   }
 
+}
+
+function warlockInnate(warlock) {
+  if ((warlock.life <= 0) || (warlock.health <= 0)) {
+    var warlockRevivePercentModifier = 10;
+    var warlockReviveChance = Math.floor(Math.random() * (Math.floor(warlockRevivePercentModifier)-Math.ceil((0))) + Math.ceil((0)));
+    if (warlockReviveChance === 0) {
+      if (warlock.health <= 0) {
+        warlock.health = (warlock.baseHealth + warlock.healthModifier)*.10;
+        console.log("DEATH WILL NOT TAKE ME!!! I AM IT'S MASTER!!!");
+      } else if (warlock.life <= 0) {
+        warlock.life = ((warlock.baseHealth + warlock.healthModifier)+(warlock.baseArmor + warlock.armorModifier))*.10;
+        console.log("DEATH WILL NOT TAKE ME!!! I AM IT'S MASTER!!!");
+      }
+    }
+
+  }
+}
+
+function opponentHealthCheck(opponent) {
+  console.log("Opponent's current health is: " + opponent.health);
+  console.log("Opponent's current life is: " + opponent.life);
 }
