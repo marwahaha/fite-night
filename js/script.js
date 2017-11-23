@@ -145,6 +145,9 @@ var kurt = new Fighter('Kurt', 'hello', "berserker");
 var dawn = new Fighter('Dawn', 'goodbye', 'brawler');
 var jesse = new Fighter('Jesse', 'goodday', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
+var amy = new Fighter('Amy', 'argh matey', 'illusionist');
+
+
 
 //function used to initiate battle between the fighters passed in as arguments
 function battle(fighter1, fighter2) {
@@ -158,50 +161,38 @@ function battle(fighter1, fighter2) {
   //main fight code, runs until one fighter is defeated
   while (((fighter1.life > 0) && (fighter1.health > 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
     var attackSpread = 15;
-    var spellBreakPercentageModifier = 5;
-    var dodgePercentageModifier = 5;
-    var fighter1attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
-    var fighter2attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
-    var fighter1magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
-    var fighter2magicAttack = Math.floor(Math.random() * (Math.floor(fighter2.magicPower)-Math.ceil((fighter2.magicPower - attackSpread))) + Math.ceil((fighter2.magicPower - attackSpread)));
+    fighter1.attack = Math.floor(Math.random() * (Math.floor(fighter1.attackPower)-Math.ceil((fighter1.attackPower - attackSpread))) + Math.ceil((fighter1.attackPower - attackSpread)));
+    fighter2.attack = Math.floor(Math.random() * (Math.floor(fighter2.attackPower)-Math.ceil((fighter2.attackPower - attackSpread))) + Math.ceil((fighter2.attackPower - attackSpread)));
+    fighter1.magicAttack = Math.floor(Math.random() * (Math.floor(fighter1.magicPower)-Math.ceil((fighter1.magicPower - attackSpread))) + Math.ceil((fighter1.magicPower - attackSpread)));
+    fighter2.magicAttack = Math.floor(Math.random() * (Math.floor(fighter2.magicPower)-Math.ceil((fighter2.magicPower - attackSpread))) + Math.ceil((fighter2.magicPower - attackSpread)));
     if (fighter2.type === 'physical') {
-    fighter1.life -= fighter2attack;
-    console.log(fighter2.name + " damages " + fighter1.name + ' for ' + fighter2attack);
+      dodgeMe(fighter1, fighter2);
+      battleResolution(fighter2, fighter1);
   } if (fighter1.type === 'physical') {
-    fighter2.life -= fighter1attack;
-    console.log(fighter1.name + " damages " + fighter2.name + ' for ' + fighter1attack);
+      dodgeMe(fighter2, fighter1);
+      battleResolution(fighter1, fighter2);
   } if (fighter2.type === 'magical') {
-    //spellbreak mechanic
-    if (fighter1.type === 'physical') {
-      var spellBreak = Math.floor(Math.random() * (Math.floor(spellBreakPercentageModifier)-Math.ceil((0))) + Math.ceil((0)));
-      if (spellBreak === 0) {
-        fighter2magicAttack = 0;
-      }
-    }
-
-    if (!(fighter2magicAttack === 0)) {
-    fighter1.health -= fighter2magicAttack;
-    console.log(fighter2.name + ' burns ' + fighter2.name + ' for ' + fighter2magicAttack);
-  } else {
-    console.log(fighter1.name + " broke " + fighter2.name + "'s spell!")
-  }
+      spellBreak(fighter1, fighter2);
+      dodgeMe(fighter1, fighter2);
+      battleResolution(fighter2, fighter1);
   } if (fighter1.type === 'magical') {
-    //spellbreak mechanic
-    if (fighter2.type === 'physical') {
-      var spellBreak = Math.floor(Math.random() * (Math.floor(spellBreakPercentageModifier)-Math.ceil((0))) + Math.ceil((0)));
-      if (spellBreak === 0) {
-        fighter1magicAttack = 0;
-      }
-    }
+      spellBreak(fighter2, fighter1);
+      dodgeMe(fighter2, fighter1);
+      battleResolution(fighter1, fighter2);
 
-    if (!(fighter1magicAttack === 0)) {
-    fighter2.health -= fighter1magicAttack;
-    console.log(fighter1.name + ' burns ' + fighter2.name + ' for ' + fighter2magicAttack);
-  } else {
-    console.log(fighter2.name + " broke " + fighter1.name + "'s spell!")
+  //   if (!(fighter1.magicAttack === 0)) {
+  //   fighter2.health -= fighter1.magicAttack;
+  //   console.log(fighter1.name + ' burns ' + fighter2.name + ' for ' + fighter1.magicAttack);
+  // } else {
+  //     var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+  //     if (dodgeProfessions.indexOf(fighter2.profession) >= 0) {
+  //       console.log(fighter2.name + " dodged " + fighter1.name + "'s spell!");
+  //     }else{
+  //       console.log(fighter2.name + " broke " + fighter1.name + "'s spell!");
+  //     }
+  //   }
   }
-  }
-  }
+}
 
   //determines who the winner is after one player's life or health has been depleted
   if (((fighter1.life <= 0) || (fighter1.health <= 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
@@ -219,4 +210,61 @@ function battle(fighter1, fighter2) {
   fighter2.armor = fighter2.baseArmor + fighter2.armorModifier;
   fighter1.life = fighter1.health + fighter1.armor;
   fighter2.life = fighter2.health + fighter2.armor;
+}
+
+function dodgeMe(dodger, opponent) {
+  var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+
+  if (dodgeProfessions.indexOf(dodger.profession) >= 0) {
+    var dodgePercentModifier = 4;
+    var dodge = Math.floor(Math.random() * (Math.floor(dodgePercentModifier)-Math.ceil((0))) + Math.ceil((0)));
+    if (dodge === 0) {
+      opponent.attack = 0;
+      opponent.magicAttack = 0;
+      if (dodgeProfessions.indexOf(dodger.profession) >= 2) {
+        dodger.magicPower += 10;
+        console.log('Now time for my magic counter!')
+      }
+    }
+  }
+}
+
+function spellBreak(breaker, opponent) {
+    if ((breaker.type === 'physical') && ((breaker.profession !== 'Assassin') || (breaker.profession !== 'assassin'))) {
+      var spellBreakPercentageModifier = 5;
+      var spellBreak = Math.floor(Math.random() * (Math.floor(spellBreakPercentageModifier)-Math.ceil((0))) + Math.ceil((0)));
+      if (spellBreak === 0) {
+        opponent.magicAttack = 0;
+      }
+    }
+}
+
+//if (fighter2 === magical) //attacks
+function battleResolution(attacker, opponent) {
+  if (attacker.type === 'magical') {
+    if (!(attacker.magicAttack === 0)) {
+    opponent.health -= attacker.magicAttack;
+    console.log(attacker.name + ' burns ' + opponent.name + ' for ' + attacker.magicAttack);
+    } else {
+      var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+      if (dodgeProfessions.indexOf(opponent.profession) >= 0) {
+        console.log(opponent.name + " dodged " + attacker.name + "'s attack!");
+      }else{
+        console.log(opponent.name + " broke " + attacker.name + "'s spell!");
+      }
+    }
+
+  } else if (attacker.type === 'physical') {
+    if (!(attacker.attack === 0)) {
+    opponent.health -= attacker.attack;
+    console.log(attacker.name + ' damages ' + opponent.name + ' for ' + attacker.attack);
+    } else {
+      var dodgeProfessions = ['Assassins', 'assassins', 'Illusionist', 'illusionist'];
+      if (dodgeProfessions.indexOf(opponent.profession) >= 0) {
+        console.log(opponent.name + " dodged " + attacker.name + "'s attack!");
+      }
+    }
+
+  }
+
 }
