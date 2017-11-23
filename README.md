@@ -12,7 +12,6 @@ The goal of the battle is to decrease your opponents life points by either attac
 
 Below are the current professions.
 
-### Only innate powers based on weapons have been implemented thus far
 ### All abilities in italics are yet to be implemented
 
 ### Physical Professions:
