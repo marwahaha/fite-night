@@ -195,7 +195,7 @@ function battle(fighter1, fighter2) {
   //     dodgeMe(fighter1, fighter2);
   //     battleResolution(fighter2, fighter1);
   // }
-  attackButtonTrigger.addEventListener("click", fighter1attacks);
+  // attackButtonTrigger.addEventListener("click", fighter1attacks);
 }
 
   //determines who the winner is after one player's life or health has been depleted
