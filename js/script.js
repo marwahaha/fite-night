@@ -151,18 +151,22 @@ var jesse = new Fighter('Jesse', 'goodday', 'assassin');
 var jay = new Fighter('Jay', 'and a goodday to you', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
 var amy = new Fighter('Amy', 'argh matey', 'illusionist');
+var heroStore;
 var buttonFightTrigger = document.querySelector("#start-fite-night");
 var heroNameInput = document.querySelector('#hero-name');
 var heroProfessionInput = document.querySelector('#hero-profession');
 var attackButtonTrigger = document.querySelector("#heroAttack");
 var compAttackButtonTrigger = document.querySelector("#compAttack");
 var blockButtonTrigger = document.querySelector("#heroBlock");
-var specialAbilitiesButtonTrigger = document.querySelector("#heroSpecialAbilities")
+var compBlockButtonTrigger = document.querySelector('#compBlock');
+var specialAbilitiesButtonTrigger = document.querySelector("#heroSpecialAbilities");
 var attackSpread = 15;
-
+var firstBattle = true;
+var combatants = null;
 
 //function used to initiate battle between the fighters passed in as arguments
 function battle(fighter1, fighter2) {
+
   //fighter's state their slogans
   console.log(fighter1.slogan);
   console.log(fighter2.slogan);
@@ -172,13 +176,19 @@ function battle(fighter1, fighter2) {
   fighter2.getWeapon();
   //resets health at battle start
   resetHealth(fighter1, fighter2);
+  console.log('Let the battle begin!');
 
   //main fight code, runs until one fighter is defeated
-  //bug: button triggers are being activated twice on a single button press
-  attackButtonTrigger.addEventListener("click", fighterAttacks(fighter1, fighter2));
-  compAttackButtonTrigger.addEventListener("click", fighterAttacks(fighter2, fighter1));
-  blockButtonTrigger.addEventListener("click", blockAttack(fighter2));
-  // specialAbiltiesButtonTrigger.addEventListener("click", function(){}); //open up special abilities list
+  //prevents duplicate event listeners
+  if (firstBattle === true) {
+    attackButtonTrigger.addEventListener("click", fighterAttacks(fighter1, fighter2));
+    compAttackButtonTrigger.addEventListener("click", fighterAttacks(fighter2, fighter1));
+    blockButtonTrigger.addEventListener("click", blockAttack(fighter1));
+    compBlockButtonTrigger.addEventListener("click", blockAttack(fighter2));
+    // specialAbiltiesButtonTrigger.addEventListener("click", function(){}); //open up special abilities list
+  }
+
+  firstBattle = false;
 
 }
 
@@ -250,7 +260,6 @@ function battleEnd(fighter1, fighter2) {
     console.log("Both fighters have passed out!!! It's a draw!!!");
     resetHealth(fighter1, fighter2);
   }
-
 }
 
 function resetHealth(fighter1, fighter2) {
@@ -320,10 +329,13 @@ function armorUp(attacker) {
 if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 
   buttonFightTrigger.addEventListener("click", function() {
-    var heroName = heroNameInput.value;
-    var heroProfession = heroProfessionInput.value;
+    // var heroName = heroNameInput.value;
+    // var heroProfession = heroProfessionInput.value;
+    var heroName = 'hero';
+    var heroProfession = 'warrior';
     var heroSlogan = 'foo';
     var hero = new Fighter(heroName, heroSlogan, heroProfession);
+    heroStore = hero;
     var opponents = [kurt, dawn, jesse, jay, amy, john];
     var opponent = opponents[0];
     // console.log(heroName + heroProfession);
@@ -333,7 +345,8 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 }
 
 function fighterAttacks(attacker, defender) { //
-  return function() {
+  return function(){
+    //attackButtonTrigger.removeEventListener("click", arguments.callee);
     if (((attacker.life > 0) && (attacker.health > 0)) && ((defender.life > 0) && (defender.health > 0))) {
       attacker.attack = Math.floor(Math.random() * (Math.floor(attacker.attackPower)-Math.ceil((attacker.attackPower - attackSpread))) + Math.ceil((attacker.attackPower - attackSpread)));
       attacker.magicAttack = Math.floor(Math.random() * (Math.floor(attacker.magicPower)-Math.ceil((attacker.magicPower - attackSpread))) + Math.ceil((attacker.magicPower - attackSpread)));
@@ -347,7 +360,12 @@ function fighterAttacks(attacker, defender) { //
           battleResolution(attacker, defender);
           battleEnd(attacker, defender);
         }
+    }
   }
 
+
 }
+
+function deleteEventListener(){
+  attackButtonTrigger.removeEventListener("click", combatants);
 }
