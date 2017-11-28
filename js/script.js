@@ -1,6 +1,6 @@
 class Fighter {
   constructor(name, slogan, profession){
-    //properties shared by all professions
+    // properties shared by all professions
     this.name = name;
     this.slogan = slogan;
     this.profession = profession;
@@ -11,7 +11,7 @@ class Fighter {
     this.physHealthModifier = 20;
     this.magicalHealthModifier = 20;
 
-    //calculates main stats based on profession
+    // calculates main stats based on profession
     if (profession === 'Berserker' || profession === 'berserker') {
       this.basePower = 30;
       this.armorModifier = this.physArmor;
@@ -86,10 +86,15 @@ class Fighter {
     } else {
       this.type = 'civilian';
     }
+
+    if (profession === 'Warrior' || profession === 'warrior') {
+      this.abilities = [attackUp(), armorUp()];
+    }
+
   }
 
 
-  //function called to give each fighter a random weapon at battle-start
+  //method called to give each fighter a random weapon at battle-start
   getWeapon() {
    var weaponNumber = Math.floor(Math.random() * (Math.floor(5)-Math.ceil(0)) + Math.ceil(0));
 
@@ -141,6 +146,13 @@ class Fighter {
   this.magicPower = this.baseMagicPower + this.weaponMagicPower;
 }
 
+attackUp() {
+  this.attackPower += 10;
+}
+
+armorUp() {
+  this.life += 10;
+}
 
 }
 
@@ -151,6 +163,7 @@ var jesse = new Fighter('Jesse', 'goodday', 'assassin');
 var jay = new Fighter('Jay', 'and a goodday to you', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
 var amy = new Fighter('Amy', 'argh matey', 'illusionist');
+var abigail = new Fighter('Abigail', 'God is good', 'warrior');
 var heroStore;
 var buttonFightTrigger = document.querySelector("#start-fite-night");
 var heroNameInput = document.querySelector('#hero-name');
@@ -177,7 +190,7 @@ function battle(fighter1, fighter2) {
   //resets health at battle start
   resetHealth(fighter1, fighter2);
   console.log('Let the battle begin!');
-
+git
   //main fight code, runs until one fighter is defeated
   //prevents duplicate event listeners
   if (firstBattle === true) {
@@ -317,15 +330,17 @@ function berserkerRage(attacker, opponent) {
   }
 }
 
-function attackUp(attacker) {
-  attacker.attackPower += 10;
-}
+// function attackUp(attacker) {
+//   attacker.attackPower += 10;
+// }
+//
+// function armorUp(attacker) {
+//   attacker.life += 10;
+// }
 
-function armorUp(attacker) {
-  attacker.life += 10;
-}
-
-//interaction portion
+/* ========================
+INTERACTION PORTION
+===========================*/
 if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 
   buttonFightTrigger.addEventListener("click", function() {
@@ -366,6 +381,6 @@ function fighterAttacks(attacker, defender) { //
 
 }
 
-function deleteEventListener(){
-  attackButtonTrigger.removeEventListener("click", combatants);
-}
+// function deleteEventListener(){
+//   attackButtonTrigger.removeEventListener("click", combatants);
+// }
