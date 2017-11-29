@@ -102,8 +102,12 @@ class Fighter {
     //determines fighter weapon type, used in battle calculations
     if (physicalProfessions.indexOf(this.profession) >= 0) {
       this.type = 'physical';
+      if (profession === 'Assassin' || profession === 'assassin') {
+        this.energy = 100;
+      }
     } else if (magicalProfessions.indexOf(this.profession) >= 0) {
       this.type = 'magical';
+      this.mana = 100;
     } else {
       this.type = 'civilian';
     }
@@ -122,6 +126,9 @@ class Fighter {
     this.weapon = 'wand';
     this.weaponPower = 10;
     this.weaponMagicPower = 30;
+    if (this.type === 'magical'){
+      this.mana += 50;
+    }
   } else if (weaponNumber === 2) {
     this.weapon = 'dagger';
     this.weaponPower = 30;
@@ -145,6 +152,7 @@ class Fighter {
     console.log("It's bare knuckle time!");
   } else if (((this.profession === 'Warrior') || (this.profession === 'warrior')) && (this.weapon === 'sword')) {
     this.armor += 10;
+    this.superPowers[1] = 'shieldBash';
     console.log("Every sword needs a shield!");
   } else if (((this.profession === 'Assassin') || (this.profession === 'assassin')) && (this.weapon === 'dagger')) {
     this.weaponPower += 50;
@@ -280,7 +288,10 @@ function getSpecialAbilities(fighter, opponent){
   } else {
     getOpponentDivButton.innerHTML = '';
   }
-  var listOfSuperPowerFunctions = [berserkerRage, armorUp, powerUp, hiltBash, backstab, fireball, fireblast, magicShield, heal, drain, curse, sacrifice];
+  var listOfSuperPowerFunctions = [berserkerRage, armorUp, powerUp, hiltBash, backstab, fireball, fireblast, magicShield, heal, drain, curse, sacrifice, shieldBash];
+  var listOfOffensivePowerFunctions = [backstab, fireball, fireblast, drain, curse];
+  var listOfDefensivePowerFunctions = [armorUp, magicShield, heal];
+  var listOfUtilityPowerFunctions = [berserkerRage, powerUp, sacrifice, hiltBash, shieldBash];
   for (var i = 0; i < fighter.superPowers.length; i++) {
     var specialAbility = document.createElement('button');
     specialAbility.textContent = fighter.superPowers[i];
@@ -290,6 +301,35 @@ function getSpecialAbilities(fighter, opponent){
         specialAbility.addEventListener('click', listOfSuperPowerFunctions[j](fighter, opponent));
       }
     }
+
+    //adds offensive ability class if special ability is an offensive ability
+    for (var k = 0; k < listOfOffensivePowerFunctions.length; k++){
+      if (specialAbility.classList.contains(listOfOffensivePowerFunctions[k].name)) {
+        console.log(listOfOffensivePowerFunctions[i].name);
+        specialAbility.className += " offensive-ability";
+      }
+    }
+
+    //adds defensive ability class if special ability is a defensive ability
+    for (var l = 0; l < listOfDefensivePowerFunctions.length; l++){
+      if (specialAbility.classList.contains(listOfDefensivePowerFunctions[l].name)) {
+        console.log(listOfDefensivePowerFunctions[l].name);
+        specialAbility.className += " defensive-ability";
+      }
+    }
+
+    //adds utility ability class if special ability is a utility ability
+    for (var m = 0; m < listOfUtilityPowerFunctions.length; m++){
+      if (specialAbility.classList.contains(listOfUtilityPowerFunctions[m].name)) {
+        console.log(listOfUtilityPowerFunctions[m].name);
+        specialAbility.className += " utility-ability";
+      }
+    }
+
+
+
+
+    // clears superPowers divs when run
     if (fighter.isHero === true){
       getDivButton.appendChild(specialAbility);
     } else {
@@ -395,6 +435,12 @@ function sacrifice(attacker, defender) {
   }
 }
 
+function shieldBash(attacker, defender) {
+  return function(){
+    console.log('this ability is shield bash');
+  }
+}
+
 /*=========================================================
 BATTLE MECHANICS
 ===========================================================*/
@@ -494,10 +540,10 @@ INTERACTION PORTION
 if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 
   buttonFightTrigger.addEventListener("click", function() {
-    var testHero = false;
+    var testHero = true;
     if (testHero === true){
       var heroName = 'hero';
-      var heroProfession = 'battle mage';
+      var heroProfession = 'warrior';
     } else {
       var heroName = heroNameInput.value;
       var heroProfession = heroProfessionInput.value;
@@ -517,6 +563,13 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
   });
 }
 
+/*================================
+COMPUTER GENERATED BATTLE ORIENTED
+=================================*/
+
+function computerResponse(hero, computer){
+
+}
 
 
 // function deleteEventListener(){
