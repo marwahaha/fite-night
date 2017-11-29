@@ -1,7 +1,14 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 .remove {
   display: none;
 }
 
-.armorUp {
+.special-ability {
   background-color: blue;
 }

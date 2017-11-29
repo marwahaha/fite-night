@@ -9,7 +9,8 @@ var attackButtonTrigger = document.querySelector("#heroAttack");
 var compAttackButtonTrigger = document.querySelector("#compAttack");
 var blockButtonTrigger = document.querySelector("#heroBlock");
 var compBlockButtonTrigger = document.querySelector('#compBlock');
-var specialAbilitiesButtonTrigger = document.querySelector("#heroSpecialAbilities");
+var specialAbilitiesButtonTrigger = document.querySelector("#heroSpecialAbilitiesTrigger");
+var compSpecialAbilitiesTrigger = document.querySelector('#compSpecialAbilitiesTrigger');
 var getDivButton = document.querySelector('#hero-special-abilities');
 var getOpponentDivButton = document.querySelector('#opponent-special-abilities');
 
@@ -201,9 +202,15 @@ function battle(fighter1, fighter2) {
     //open up special abilities list
     specialAbilitiesButtonTrigger.addEventListener("click", function(){
       attackButtonTrigger.classList.toggle('remove');
+      blockButtonTrigger.classList.toggle('remove');
       getDivButton.classList.toggle('remove');
-      getOpponentDivButton.classList.toggle('remove');
+
     });
+    compSpecialAbilitiesTrigger.addEventListener("click", function(){
+      compAttackButtonTrigger.classList.toggle('remove');
+      compBlockButtonTrigger.classList.toggle('remove');
+      getOpponentDivButton.classList.toggle('remove');
+    })
   }
 
   firstBattle = false;
@@ -277,7 +284,7 @@ function getSpecialAbilities(fighter, opponent){
   for (var i = 0; i < fighter.superPowers.length; i++) {
     var specialAbility = document.createElement('button');
     specialAbility.textContent = fighter.superPowers[i];
-    specialAbility.className += " "+fighter.superPowers[i];
+    specialAbility.className += "special-ability"+ " "+fighter.superPowers[i];
     for (var j = 0; j < listOfSuperPowerFunctions.length; j++) {
       if (specialAbility.classList.contains(listOfSuperPowerFunctions[j].name)) {
         specialAbility.addEventListener('click', listOfSuperPowerFunctions[j](fighter, opponent));
@@ -487,10 +494,14 @@ INTERACTION PORTION
 if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 
   buttonFightTrigger.addEventListener("click", function() {
-    // var heroName = heroNameInput.value;
-    // var heroProfession = heroProfessionInput.value;
-    var heroName = 'hero';
-    var heroProfession = 'battle mage';
+    var testHero = false;
+    if (testHero === true){
+      var heroName = 'hero';
+      var heroProfession = 'battle mage';
+    } else {
+      var heroName = heroNameInput.value;
+      var heroProfession = heroProfessionInput.value;
+    }
     var heroSlogan = 'foo';
     var hero = new Fighter(heroName, heroSlogan, heroProfession);
 

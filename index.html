@@ -11,13 +11,18 @@
   <input type='text' placeholder='Name your Hero' id="hero-name">
   <input type='text' placeholder="Enter your Hero's profession" id="hero-profession">
   <button id="start-fite-night">Start the fight!</button>
-  <button id="heroAttack">Hero Attack</button>
-  <button id="compAttack">Comp Attack</button>
-  <button id="heroBlock">Block</button>
-  <button id="compBlock">Comp Block</button>
-  <button id="heroSpecialAbilities">Special Abilities</button>
-  <div id="hero-special-abilities" class="remove"></div>
-  <div id="opponent-special-abilities" class="remove"></div>
+  <div id="hero-container">
+    <button id="heroAttack">Hero Attack</button>
+    <button id="heroBlock">Block</button>
+    <button id="heroSpecialAbilitiesTrigger">Special Abilities</button>
+    <div id="hero-special-abilities" class="remove"></div>
+  </div>
+  <div id="opponent-container">
+    <button id="compAttack">Comp Attack</button>
+    <button id="compBlock">Comp Block</button>
+    <button id="compSpecialAbilitiesTrigger">Comp Special Abilities</button>
+    <div id="opponent-special-abilities" class="remove"></div>
+  </div>
 
 <script src="js/script.js"></script>
 </body>
