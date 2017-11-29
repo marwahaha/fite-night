@@ -10,7 +10,8 @@ var compAttackButtonTrigger = document.querySelector("#compAttack");
 var blockButtonTrigger = document.querySelector("#heroBlock");
 var compBlockButtonTrigger = document.querySelector('#compBlock');
 var specialAbilitiesButtonTrigger = document.querySelector("#heroSpecialAbilities");
-var getDivButton = document.querySelector('#special-abilities');
+var getDivButton = document.querySelector('#hero-special-abilities');
+var getOpponentDivButton = document.querySelector('#opponent-special-abilities');
 
 var attackSpread = 15;
 var firstBattle = true;
@@ -28,6 +29,7 @@ class Fighter {
     this.magicalArmor = 10;
     this.physHealthModifier = 20;
     this.magicalHealthModifier = 20;
+    this.isHero = false;
 
     // calculates main stats based on profession
     if (profession === 'Berserker' || profession === 'berserker') {
@@ -104,7 +106,7 @@ class Fighter {
     } else {
       this.type = 'civilian';
     }
-  }
+  } // closes constructor
 
 
   //method called to give each fighter a random weapon at battle-start
@@ -159,15 +161,7 @@ class Fighter {
   this.magicPower = this.baseMagicPower + this.weaponMagicPower;
 }
 
-attackUp() {
-  this.attackPower += 10;
-}
-
-armorUp() {
-  this.life += 10;
-}
-
-}
+} //closes Fighter Class
 
 /*=============================
 PRE-DEFINED FIGHTERS
@@ -182,6 +176,7 @@ var abigail = new Fighter('Abigail', 'God is good', 'warrior');
 
 //function used to initiate battle between the fighters passed in as arguments
 function battle(fighter1, fighter2) {
+  console.log(fighter2.name);
   //fighter's state their slogans
   console.log(fighter1.slogan);
   console.log(fighter2.slogan);
@@ -189,6 +184,8 @@ function battle(fighter1, fighter2) {
   //gives each fighter a random weapon to fight with
   fighter1.getWeapon();
   fighter2.getWeapon();
+  getSpecialAbilities(fighter1, fighter2);
+  getSpecialAbilities(fighter2, fighter1);
 
   //resets health at battle start
   resetHealth(fighter1, fighter2);
@@ -205,9 +202,8 @@ function battle(fighter1, fighter2) {
     specialAbilitiesButtonTrigger.addEventListener("click", function(){
       attackButtonTrigger.classList.toggle('remove');
       getDivButton.classList.toggle('remove');
+      getOpponentDivButton.classList.toggle('remove');
     });
-    getSpecialAbilities(fighter1, fighter2);
-    getSpecialAbilities(fighter2, fighter1);
   }
 
   firstBattle = false;
@@ -266,27 +262,39 @@ function warlockInnate(warlock) {
   }
 }
 
-/*=================================
-special abilities
-===================================*/
+/*====================================================================
+special abilities index
+======================================================================*/
 
-//creates special abilities button
+//creates special abilities buttons
 function getSpecialAbilities(fighter, opponent){
+  if (fighter.isHero === true){
+    getDivButton.innerHTML = '';
+  } else {
+    getOpponentDivButton.innerHTML = '';
+  }
   var listOfSuperPowerFunctions = [berserkerRage, armorUp, powerUp, hiltBash, backstab, fireball, fireblast, magicShield, heal, drain, curse, sacrifice];
   for (var i = 0; i < fighter.superPowers.length; i++) {
     var specialAbility = document.createElement('button');
     specialAbility.textContent = fighter.superPowers[i];
     specialAbility.className += " "+fighter.superPowers[i];
-    getDivButton.appendChild(specialAbility);
     for (var j = 0; j < listOfSuperPowerFunctions.length; j++) {
       if (specialAbility.classList.contains(listOfSuperPowerFunctions[j].name)) {
         specialAbility.addEventListener('click', listOfSuperPowerFunctions[j](fighter, opponent));
       }
     }
-
+    if (fighter.isHero === true){
+      getDivButton.appendChild(specialAbility);
+    } else {
+      getOpponentDivButton.appendChild(specialAbility);
+    }
   }
+
 }
 
+/*============================
+list of special abilities
+=============================*/
 function berserkerRage(attacker, opponent) {
   return function () {
     if ((attacker.profession === 'Berserker') || (attacker.profession === 'berserker')) {
@@ -380,11 +388,10 @@ function sacrifice(attacker, defender) {
   }
 }
 
-/*===============================
-Battle Mechanics
-================================*/
+/*=========================================================
+BATTLE MECHANICS
+===========================================================*/
 
-//if (fighter2 === magical) //attacks
 function battleResolution(attacker, opponent) {
   if (attacker.type === 'magical') {
     if (!(attacker.magicAttack === 0)) {
@@ -474,9 +481,9 @@ function blockAttack(defender) {
 
 }
 
-/* ========================
+/* ==============================================
 INTERACTION PORTION
-===========================*/
+=================================================*/
 if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 
   buttonFightTrigger.addEventListener("click", function() {
@@ -486,14 +493,19 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
     var heroProfession = 'battle mage';
     var heroSlogan = 'foo';
     var hero = new Fighter(heroName, heroSlogan, heroProfession);
+
+    //used to put special abilities in seperate div
+    hero.isHero = true;
     heroStore = hero;
     var opponents = [kurt, dawn, jesse, jay, amy, john];
-    var opponent = opponents[0];
+    var opponent = function() {
+      return (opponents[Math.floor(Math.random()*opponents.length)])
+    };
     // console.log(heroName + heroProfession);
-    battle(hero, opponent);
-    console.log(hero.weapon);
+    battle(hero, opponent());
   });
 }
+
 
 
 // function deleteEventListener(){
