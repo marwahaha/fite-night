@@ -1,3 +1,7 @@
 .remove {
   display: none;
 }
+
+.armorUp {
+  background-color: blue;
+}

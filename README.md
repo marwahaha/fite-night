@@ -17,22 +17,22 @@ Below are the current professions.
 ### Physical Professions:
 
 - Berserker: high attack, medium armor, medium health
-          *1 special ability: increase your own weaponPower x2, increase enemy weaponPower x2 (or increase magicPower x1.5)*
+          1 special ability: increase your own weaponPower x2, increase enemy weaponPower x2 (or increase magicPower x1.5)
           innate ability: If given a greatsword, weaponPower is increased
 
 - Brawler: low attack, medium armor, medium health
-        *2 special abilities: increase weaponPower; increase armor*
+        2 special abilities: increase weaponPower; increase armor
         innate ability: If given no weapon, weaponPower is increased x2
 
 - Fighter: medium attack, medium armor, high health                            
-        *1 special ability: increase weaponPower*
+        1 special ability: increase weaponPower
 
 - Warrior: medium attack, medium armor, medium health
-        *1 special ability: increase armor*
+        1 special ability: increase armor
         innate ability: If given a sword, armor is increased x1.5
 
 - Assassin: high attack, low armor, low health
-        *1 special ability: backstab (deals X damage, damage determined by RNG)*
+        1 special ability: backstab (deals X damage, damage determined by RNG)
         2 innate abilities: If given a dagger, weaponPower is increased; has a 20% chance to dodge any attack
 
 ### Magical Professions:
@@ -40,22 +40,22 @@ Below are the current professions.
 *All mages have a finite amount of mana and all magic special abilties will have a mana cost.* In addition, although magic attacks and special abilties ignore armor, as long as a physical profession type has armor, they have a 20% chance to spellbreak, negating any damage done.
 
 - Blast Mage: high magic attack, low armor, low health
-        *2 special abilities: fireblast (high damage, high cost); magic shield (increases armor, medium cost)*
+        2 special abilities: fireblast (high damage, high cost); magic shield (increases armor, medium cost)
         innate abilities: If given wand, fireblast mana cost /2
 
 - Cleric: low magic attack, low armor, medium health
-        *2 special abilities: heal (restores health, medium cost), magic shield (increases armor, medium cost)*
+        2 special abilities: heal (restores health, medium cost), magic shield (increases armor, medium cost)
 
 - Battle Mage: medium magic attack, low attack, medium armor, low health
-        *(1 special ability: fireblast (high damage, high cost)*
-        *2 innate abilities: If given wand, can use magic shield (increases armor, medium cost) as a special ability; half of magic attack is done to armor*
+        (1 special ability: fireblast (high damage, high cost)
+        2 innate abilities: If given wand, can use magic shield (increases armor, medium cost) as a special ability; *half of magic attack is done to armor*
 
 - Illusionist: medium magic attack, low armor, low health
-        *1 special ability: magic shield (increases armor, medium cost)*
+        1 special ability: magic shield (increases armor, medium cost)
         innate ability: 20$ chance to "evade"(dodge) any attack. If an attack is evaded, magicPower is increased
 
 - Warlock: medium magic attack, low armor, medium health
-        *3 special abilities: sacrifice (converts own health to magicPower); curse (constantly damage enemies health by a small amount); drain (damages enemies health by a small amount, restores own health by a small amount)*
+        3 special abilities: sacrifice (converts own health to magicPower); curse (constantly damage enemies health by a small amount); drain (damages enemies health by a small amount, restores own health by a small amount)
         innate ability: 10% chance of surviving a killing blow and restoring 10% of total health afterwards.
 
   As you can see, there is still a lot yet to be implemented, and this project is still a work in progress.
