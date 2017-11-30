@@ -19,10 +19,10 @@ var firstBattle = true;
 var combatants = null;
 
 class Fighter {
-  constructor(name, slogan, profession){
+  constructor(name, battleCry, profession){
     // properties shared by all professions
     this.name = name;
-    this.slogan = slogan;
+    this.battleCry = battleCry;
     this.profession = profession;
     this.baseHealth = 200;
     this.baseArmor = 10;
@@ -58,6 +58,7 @@ class Fighter {
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['backstab'];
+      this.energy = 50;
     } else if (profession === 'Blast Mage' || profession === 'blast mage') {
       this.basePower = 0;
       this.baseMagicPower = 50;
@@ -102,9 +103,6 @@ class Fighter {
     //determines fighter weapon type, used in battle calculations
     if (physicalProfessions.indexOf(this.profession) >= 0) {
       this.type = 'physical';
-      if (profession === 'Assassin' || profession === 'assassin') {
-        this.energy = 100;
-      }
     } else if (magicalProfessions.indexOf(this.profession) >= 0) {
       this.type = 'magical';
       this.mana = 100;
@@ -186,9 +184,9 @@ var abigail = new Fighter('Abigail', 'God is good', 'warrior');
 //function used to initiate battle between the fighters passed in as arguments
 function battle(fighter1, fighter2) {
   console.log(fighter2.name);
-  //fighter's state their slogans
-  console.log(fighter1.slogan);
-  console.log(fighter2.slogan);
+  //fighter's state their battleCrys
+  console.log(fighter1.battleCry);
+  console.log(fighter2.battleCry);
 
   //gives each fighter a random weapon to fight with
   fighter1.getWeapon();
@@ -305,7 +303,6 @@ function getSpecialAbilities(fighter, opponent){
     //adds offensive ability class if special ability is an offensive ability
     for (var k = 0; k < listOfOffensivePowerFunctions.length; k++){
       if (specialAbility.classList.contains(listOfOffensivePowerFunctions[k].name)) {
-        console.log(listOfOffensivePowerFunctions[i].name);
         specialAbility.className += " offensive-ability";
       }
     }
@@ -313,7 +310,6 @@ function getSpecialAbilities(fighter, opponent){
     //adds defensive ability class if special ability is a defensive ability
     for (var l = 0; l < listOfDefensivePowerFunctions.length; l++){
       if (specialAbility.classList.contains(listOfDefensivePowerFunctions[l].name)) {
-        console.log(listOfDefensivePowerFunctions[l].name);
         specialAbility.className += " defensive-ability";
       }
     }
@@ -321,13 +317,9 @@ function getSpecialAbilities(fighter, opponent){
     //adds utility ability class if special ability is a utility ability
     for (var m = 0; m < listOfUtilityPowerFunctions.length; m++){
       if (specialAbility.classList.contains(listOfUtilityPowerFunctions[m].name)) {
-        console.log(listOfUtilityPowerFunctions[m].name);
         specialAbility.className += " utility-ability";
       }
     }
-
-
-
 
     // clears superPowers divs when run
     if (fighter.isHero === true){
@@ -540,16 +532,16 @@ INTERACTION PORTION
 if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
 
   buttonFightTrigger.addEventListener("click", function() {
-    var testHero = true;
+    var testHero = false;
     if (testHero === true){
       var heroName = 'hero';
-      var heroProfession = 'warrior';
+      var heroProfession = 'illusionist';
     } else {
       var heroName = heroNameInput.value;
       var heroProfession = heroProfessionInput.value;
     }
-    var heroSlogan = 'foo';
-    var hero = new Fighter(heroName, heroSlogan, heroProfession);
+    var heroBattleCry = 'foo';
+    var hero = new Fighter(heroName, heroBattleCry, heroProfession);
 
     //used to put special abilities in seperate div
     hero.isHero = true;
@@ -568,8 +560,23 @@ COMPUTER GENERATED BATTLE ORIENTED
 =================================*/
 
 function computerResponse(hero, computer){
+  if (computer.health > 50) {
 
+  } else {
+
+  }
 }
+
+/*================================
+Freeform coding section
+=================================*/
+
+// if (this.armor > 0) {
+//   this.armor -= this.attack;
+// } else {
+//
+// }
+
 
 
 // function deleteEventListener(){
