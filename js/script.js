@@ -179,6 +179,7 @@ var jay = new Fighter('Jay', 'and a goodday to you', 'assassin');
 var john = new Fighter('John', 'hi', 'warlock');
 var amy = new Fighter('Amy', 'argh matey', 'illusionist');
 var abigail = new Fighter('Abigail', 'God is good', 'warrior');
+var healGuy = new Fighter('healGuy', 'I heal', 'cleric');
 
 //function used to initiate battle between the fighters passed in as arguments
 function battle(fighter1, fighter2) {
@@ -447,6 +448,7 @@ function battleResolution(attacker, opponent) {
 
   } else if (attacker.type === 'physical') {
     if (!(attacker.attack === 0)) {
+      // subtracts from armor first, then health
       if (opponent.armor - attacker.attack >= 0) {
         opponent.armor -= attacker.attack;
       } else if (opponent.armor > 0 && opponent.armor - attacker.attack < 0) {
@@ -504,6 +506,9 @@ function fighterAttacks(attacker, defender) { //
           battleResolution(attacker, defender);
           battleEnd(attacker, defender);
           opponentHealthCheck(defender);
+          if(attacker.isHero === true){
+            computerResponse(attacker, defender);
+          }
       } if (attacker.type === 'magical') {
           spellBreak(attacker, defender);
           dodgeMe(attacker, defender);
@@ -552,7 +557,8 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
       return (opponents[Math.floor(Math.random()*opponents.length)])
     };
     // console.log(heroName + heroProfession);
-    battle(hero, opponent());
+    //battle(hero, opponent());
+    battle(hero, healGuy);
   });
 }
 
@@ -561,16 +567,43 @@ COMPUTER GENERATED BATTLE ORIENTED
 =================================*/
 
 function computerResponse(hero, computer){
-  if (computer.health > 50) {
+  var response = Math.floor(Math.random()*100);
 
+  if (computer.health >= 50) {
+    if (response < 0) {
+      fighterAttacks(computer, hero);
+    } else if (response < 0) {
+      opponentChoosesSpecialAbility("offensive");
+    } else {
+      opponentChoosesSpecialAbility("defensive");
+    }
   } else {
-
+    if (response < 60) {
+      //defensive special
+    } else if (response < 90) {
+      //fighterAttacks(fighter2, fighter1);
+    } else {
+      // offensive special
+    }
   }
+}
+
+function opponentChoosesSpecialAbility(abilityType) {
+  var targetAbility;
+  var targetAbilityIndex;
+
+  do {
+    targetAbilityIndex = Math.floor(Math.random()*getOpponentDivButton.childNodes.length);
+    targetAbility = getOpponentDivButton.children[targetAbilityIndex];
+  } while (!(targetAbility.classList.contains(abilityType + "-ability")));
+  targetAbility.click();
+
 }
 
 /*================================
 Freeform coding section
 =================================*/
+
 
 
 // function deleteEventListener(){
