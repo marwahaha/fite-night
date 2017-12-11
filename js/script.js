@@ -509,6 +509,7 @@ function fighterAttacks(attacker, defender) { //
           dodgeMe(attacker, defender);
           battleResolution(attacker, defender);
           battleEnd(attacker, defender);
+          opponentHealthCheck(defender);
         }
     }
   }
@@ -537,8 +538,8 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
       var heroName = 'hero';
       var heroProfession = 'illusionist';
     } else {
-      var heroName = heroNameInput.value.toLowerCase();
-      var heroProfession = heroProfessionInput.value;
+      var heroName = heroNameInput.value;
+      var heroProfession = heroProfessionInput.value.toLowerCase();
     }
     var heroBattleCry = 'foo';
     var hero = new Fighter(heroName, heroBattleCry, heroProfession);
@@ -570,13 +571,6 @@ function computerResponse(hero, computer){
 /*================================
 Freeform coding section
 =================================*/
-
-// if (this.armor > 0) {
-//   this.armor -= this.attack;
-// } else {
-//
-// }
-
 
 
 // function deleteEventListener(){
