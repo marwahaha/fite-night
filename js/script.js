@@ -33,57 +33,57 @@ class Fighter {
     this.isHero = false;
 
     // calculates main stats based on profession
-    if (profession === 'Berserker' || profession === 'berserker') {
+    if (profession === 'berserker') {
       this.basePower = 30;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier;
       this.superPowers = ['berserkerRage'];
-    } else if (profession === 'Brawler' || profession === 'brawler') {
+    } else if (profession === 'brawler') {
       this.basePower = 10;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier;
       this.superPowers = ['armorUp', 'powerUp'];
-    } else if (profession === 'Fighter' || profession === 'fighter') {
+    } else if (profession === 'fighter') {
       this.basePower = 20;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier + 10;
       this.superPowers = ['powerUp'];
-    } else if (profession === 'Warrior' || profession === 'warrior') {
+    } else if (profession === 'warrior') {
       this.basePower = 20;
       this.armorModifier = this.physArmor;
       this.healthModifier = this.physHealthModifier;
       this.superPowers = ['armorUp', 'hiltBash'];
-    } else if (profession === 'Assassin' || profession === 'assassin') {
+    } else if (profession === 'assassin') {
       this.basePower = 30;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['backstab'];
       this.energy = 50;
-    } else if (profession === 'Blast Mage' || profession === 'blast mage') {
+    } else if (profession === 'blast mage') {
       this.basePower = 0;
       this.baseMagicPower = 50;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'fireblast', 'magicShield'];
-    } else if (profession === 'Cleric' || profession === 'cleric') {
+    } else if (profession === 'cleric') {
       this.basePower = 0;
       this.baseMagicPower = 20;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier + 10;
       this.superPowers = ['fireball', 'heal', 'magicShield'];
-    } else if (profession === 'Battle Mage' || profession === 'battle mage') {
+    } else if (profession === 'battle mage') {
       this.basePower = 0;
       this.baseMagicPower = 30;
       this.armorModifier = this.magicalArmor + 10;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'fireblast'];
-    } else if (profession === 'Illusionist' || profession === 'illusionist') {
+    } else if (profession === 'illusionist') {
       this.basePower = 0;
       this.baseMagicPower = 30;
       this.armorModifier = this.magicalArmor;
       this.healthModifier = this.magicalHealthModifier;
       this.superPowers = ['fireball', 'magicShield'];
-    } else if (profession === 'Warlock' || profession === 'warlock') {
+    } else if (profession === 'warlock') {
       this.basePower = 0;
       this.baseMagicPower = 50;
       this.armorModifier = this.magicalArmor;
@@ -94,11 +94,10 @@ class Fighter {
     //recalculates health stats based on profession
     this.health = this.baseHealth + this.healthModifier;
     this.armor = this.baseArmor + this.armorModifier;
-    this.life = this.health + this.armor;
 
-    var physicalProfessions = ['Berserker', 'berserker', 'Brawler', 'brawler', 'Fighter', 'fighter', 'Warrior', 'warrior', 'Assassin', 'assassin'];
+    var physicalProfessions = ['berserker', 'brawler', 'fighter', 'warrior', 'assassin'];
 
-    var magicalProfessions = ['Blast Mage', 'blast mage', 'Cleric', 'cleric', 'Battle Mage', 'battle mage', 'Illusionist', 'illusionist', 'Warlock', 'warlock']
+    var magicalProfessions = ['blast mage', 'cleric', 'battle mage', 'illusionist', 'warlock']
 
     //determines fighter weapon type, used in battle calculations
     if (physicalProfessions.indexOf(this.profession) >= 0) {
@@ -142,23 +141,23 @@ class Fighter {
   }
 
   //call weapon based inate powers here
-  if (((this.profession === 'Berserker') || (this.profession === 'berserker')) && (this.weapon === 'greatsword')) {
+  if (this.profession === 'berserker' && this.weapon === 'greatsword') {
     this.weaponPower += 20;
     console.log('Imma tear you up!');
-  } else if ((this.profession === 'Brawler' || this.profession === 'brawler') && (this.weapon === 'bare knuckles')) {
+  } else if (this.profession === 'brawler' && this.weapon === 'bare knuckles') {
     this.weaponPower += 50;
     console.log("It's bare knuckle time!");
-  } else if (((this.profession === 'Warrior') || (this.profession === 'warrior')) && (this.weapon === 'sword')) {
+  } else if (this.profession === 'warrior' && this.weapon === 'sword') {
     this.armor += 10;
     this.superPowers[1] = 'shieldBash';
     console.log("Every sword needs a shield!");
-  } else if (((this.profession === 'Assassin') || (this.profession === 'assassin')) && (this.weapon === 'dagger')) {
+  } else if (this.profession === 'assassin' && this.weapon === 'dagger') {
     this.weaponPower += 50;
     console.log("A sword is made for battle. A dagger for killing");
-  } else if (((this.profession === 'Blast Mage') || (this.profession === 'blast mage')) && (this.weapon === 'wand')) {
+  } else if (this.profession === 'blast mage' && this.weapon === 'wand') {
     this.weaponPower += 50;
     console.log("The wand is mightier than the sword!");
-  } else if (((this.profession === 'Battle Mage') || (this.profession === 'battle mage')) && (this.weapon === 'wand')) {
+  } else if (this.profession === 'battle mage' && this.weapon === 'wand') {
     this.superPowers.push('magicShield');
     console.log('If my wand is my sword, my mind is my shield.');
   }
@@ -232,7 +231,7 @@ Innate Abilities
 ===========================*/
 
 function dodgeMe(attacker, dodger) {
-  var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
+  var dodgeProfessions = ['assassin', 'illusionist'];
 
   if (dodgeProfessions.indexOf(dodger.profession) >= 0) {
     var dodgePercentModifier = 4;
@@ -249,7 +248,7 @@ function dodgeMe(attacker, dodger) {
 }
 
 function spellBreak(attacker, breaker) {
-    if ((breaker.type === 'physical') && ((breaker.profession !== 'Assassin') || (breaker.profession !== 'assassin'))) {
+    if (breaker.type === 'physical' && breaker.profession !== 'assassin') {
       var spellBreakPercentageModifier = 5;
       var spellBreak = Math.floor(Math.random() * (Math.floor(spellBreakPercentageModifier)-Math.ceil((0))) + Math.ceil((0)));
       if (spellBreak === 0) {
@@ -259,15 +258,12 @@ function spellBreak(attacker, breaker) {
 }
 
 function warlockInnate(warlock) {
-  if ((warlock.life <= 0) || (warlock.health <= 0)) {
+  if (warlock.health <= 0) {
     var warlockRevivePercentModifier = 10;
     var warlockReviveChance = Math.floor(Math.random() * (Math.floor(warlockRevivePercentModifier)-Math.ceil((0))) + Math.ceil((0)));
     if (warlockReviveChance === 0) {
       if (warlock.health <= 0) {
         warlock.health = (warlock.baseHealth + warlock.healthModifier)*.10;
-        console.log("DEATH WILL NOT TAKE ME!!! I AM IT'S MASTER!!!");
-      } else if (warlock.life <= 0) {
-        warlock.life = ((warlock.baseHealth + warlock.healthModifier)+(warlock.baseArmor + warlock.armorModifier))*.10;
         console.log("DEATH WILL NOT TAKE ME!!! I AM IT'S MASTER!!!");
       }
     }
@@ -336,7 +332,7 @@ list of special abilities
 =============================*/
 function berserkerRage(attacker, opponent) {
   return function () {
-    if ((attacker.profession === 'Berserker') || (attacker.profession === 'berserker')) {
+    if (attacker.profession === 'berserker') {
       console.log('this ability is berserker rage');
       attacker.attackPower += 20;
       opponent.attackPower += 20;
@@ -350,7 +346,7 @@ function berserkerRage(attacker, opponent) {
 function armorUp(attacker, defender) {
   return function () {
     console.log('this ability is armorUp');
-    attacker.life += 10;
+    attacker.armor += 10;
   }
 }
 
@@ -403,10 +399,8 @@ function heal(attacker, defender) {
 function drain(attacker, defender) {
   return function(){
     console.log('this ability is drain');
-    if (attacker.profession === 'Warlock' || attacker.profession === 'warlock') {
-      attacker.life += 10;
+    if (attacker.profession === 'warlock') {
       attacker.health += 10;
-      defender.life -= 10;
       defender.health -= 10;
     } else {
       console.log("YOU CAN'T USE THAT ABILITY")
@@ -443,7 +437,7 @@ function battleResolution(attacker, opponent) {
     opponent.health -= attacker.magicAttack;
     console.log(attacker.name + ' burns ' + opponent.name + ' for ' + attacker.magicAttack);
     } else {
-      var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
+      var dodgeProfessions = ['assassin', 'illusionist'];
       if (dodgeProfessions.indexOf(opponent.profession) >= 0) {
         console.log(opponent.name + " dodged " + attacker.name + "'s attack!");
       }else{
@@ -455,17 +449,15 @@ function battleResolution(attacker, opponent) {
     if (!(attacker.attack === 0)) {
       if (opponent.armor - attacker.attack >= 0) {
         opponent.armor -= attacker.attack;
-      } else (opponent.armor > 0 && opponent.armor - attacker.attack < 0) {
+      } else if (opponent.armor > 0 && opponent.armor - attacker.attack < 0) {
         opponent.health -= (attacker.attack - opponent.armor);
         opponent.armor = 0;
-        // minus armor
       } else {
         opponent.health -= attacker.attack;
       }
-    // opponent.life -= attacker.attack;
     console.log(attacker.name + ' damages ' + opponent.name + ' for ' + attacker.attack);
     } else {
-      var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
+      var dodgeProfessions = ['assassin', 'illusionist'];
       if (dodgeProfessions.indexOf(opponent.profession) >= 0) {
         console.log(opponent.name + " dodged " + attacker.name + "'s attack!");
       }
@@ -475,14 +467,14 @@ function battleResolution(attacker, opponent) {
 }
 
 function battleEnd(fighter1, fighter2) {
-  //determines who the winner is after one player's life or health has been depleted
-  if (((fighter1.life <= 0) || (fighter1.health <= 0)) && ((fighter2.life > 0) && (fighter2.health > 0))) {
+  //determines who the winner is after one player's health has been depleted
+  if (fighter1.health <= 0 && fighter2.health > 0) {
     console.log(fighter2.name + " wins!!!");
     resetHealth(fighter1, fighter2);
-  } else if (((fighter2.life <= 0) || (fighter2.health <= 0)) && ((fighter1.life > 0) && (fighter1.health > 0))) {
+  } else if (fighter2.health <= 0 && fighter1.health > 0) {
     console.log(fighter1.name + " wins!!!");
     resetHealth(fighter1, fighter2);
-  } else if (((fighter1.life <= 0) || (fighter1.health <= 0)) && ((fighter2.life <= 0) || (fighter2.health <= 0))) {
+  } else if (fighter1.health <= 0 && fighter2.health <= 0) {
     console.log("Both fighters have passed out!!! It's a draw!!!");
     resetHealth(fighter1, fighter2);
   }
@@ -494,25 +486,24 @@ function resetHealth(fighter1, fighter2) {
   fighter2.health = fighter2.baseHealth + fighter2.healthModifier;
   fighter1.armor = fighter1.baseArmor + fighter1.armorModifier;
   fighter2.armor = fighter2.baseArmor + fighter2.armorModifier;
-  fighter1.life = fighter1.health + fighter1.armor;
-  fighter2.life = fighter2.health + fighter2.armor;
 }
 
 function opponentHealthCheck(opponent) {
+  console.log("Opponent's current armor is: " + opponent.armor);
   console.log("Opponent's current health is: " + opponent.health);
-  console.log("Opponent's current life is: " + opponent.life);
 }
 
 function fighterAttacks(attacker, defender) { //
   return function(){
     //attackButtonTrigger.removeEventListener("click", arguments.callee);
-    if (((attacker.life > 0) && (attacker.health > 0)) && ((defender.life > 0) && (defender.health > 0))) {
+    if (attacker.health > 0 && defender.health > 0) {
       attacker.attack = Math.floor(Math.random() * (Math.floor(attacker.attackPower)-Math.ceil((attacker.attackPower - attackSpread))) + Math.ceil((attacker.attackPower - attackSpread)));
       attacker.magicAttack = Math.floor(Math.random() * (Math.floor(attacker.magicPower)-Math.ceil((attacker.magicPower - attackSpread))) + Math.ceil((attacker.magicPower - attackSpread)));
       if (attacker.type === 'physical') {
           dodgeMe(attacker, defender);
           battleResolution(attacker, defender);
           battleEnd(attacker, defender);
+          opponentHealthCheck(defender);
       } if (attacker.type === 'magical') {
           spellBreak(attacker, defender);
           dodgeMe(attacker, defender);
@@ -528,8 +519,8 @@ function fighterAttacks(attacker, defender) { //
 function blockAttack(defender) {
   return function () {
     if (defender.type === 'physical') {
-      defender.life += 30;
-      console.log(defender.life);
+      defender.armor += 30;
+      console.log(defender.armor);
     }
   }
 
@@ -546,7 +537,7 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
       var heroName = 'hero';
       var heroProfession = 'illusionist';
     } else {
-      var heroName = heroNameInput.value;
+      var heroName = heroNameInput.value.toLowerCase();
       var heroProfession = heroProfessionInput.value;
     }
     var heroBattleCry = 'foo';
