@@ -453,7 +453,16 @@ function battleResolution(attacker, opponent) {
 
   } else if (attacker.type === 'physical') {
     if (!(attacker.attack === 0)) {
-    opponent.life -= attacker.attack;
+      if (opponent.armor - attacker.attack >= 0) {
+        opponent.armor -= attacker.attack;
+      } else (opponent.armor > 0 && opponent.armor - attacker.attack < 0) {
+        opponent.health -= (attacker.attack - opponent.armor);
+        opponent.armor = 0;
+        // minus armor
+      } else {
+        opponent.health -= attacker.attack;
+      }
+    // opponent.life -= attacker.attack;
     console.log(attacker.name + ' damages ' + opponent.name + ' for ' + attacker.attack);
     } else {
       var dodgeProfessions = ['Assassin', 'assassin', 'Illusionist', 'illusionist'];
