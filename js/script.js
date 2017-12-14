@@ -341,6 +341,7 @@ function berserkerRage(attacker, opponent) {
         opponent.magicPower += 10;
       }
     }
+    triggerComputerResponse(attacker, defender);
   }
 }
 
@@ -348,6 +349,7 @@ function armorUp(attacker, defender) {
   return function () {
     console.log('this ability is armorUp');
     attacker.armor += 10;
+    triggerComputerResponse(attacker, defender);
   }
 }
 
@@ -355,6 +357,7 @@ function powerUp(attacker, defender) {
   return function () {
     console.log('this ability is powerUp');
     attacker.attackPower += 10;
+    triggerComputerResponse(attacker, defender);
   }
 }
 
@@ -362,6 +365,7 @@ function hiltBash(attacker, defender) {
   return function () {
     console.log('this ability is hiltBash');
     attacker.attackPower += 10;
+    triggerComputerResponse(attacker, defender);
   }
 }
 
@@ -370,30 +374,35 @@ function backstab(attacker, defender) {
   return function () {
     console.log('this ability is backstab');
     attacker.attackPower += 10;
+    triggerComputerResponse(attacker, defender);
   }
 }
 
 function fireball(attacker, defender) {
   return function () {
     console.log('this ability is fireball');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
 function fireblast(attacker, defender) {
   return function () {
     console.log('this ability is fireblast');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
 function magicShield(attacker, defender) {
   return function () {
     console.log('this ability is magic shield');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
 function heal(attacker, defender) {
   return function () {
     console.log('this ability is heal');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
@@ -406,6 +415,7 @@ function drain(attacker, defender) {
     } else {
       console.log("YOU CAN'T USE THAT ABILITY")
     }
+    triggerComputerResponse(attacker, defender);
   }
 
 }
@@ -413,18 +423,21 @@ function drain(attacker, defender) {
 function curse(attacker, defender) {
   return function(){
     console.log('this ability is curse');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
 function sacrifice(attacker, defender) {
   return function(){
     console.log('this ability is sacrifice');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
 function shieldBash(attacker, defender) {
   return function(){
     console.log('this ability is shield bash');
+    triggerComputerResponse(attacker, defender);
   }
 }
 
@@ -506,20 +519,17 @@ function fighterAttacks(attacker, defender) { //
           battleResolution(attacker, defender);
           battleEnd(attacker, defender);
           opponentHealthCheck(defender);
-          if(attacker.isHero === true){
-            computerResponse(attacker, defender);
-          }
+          triggerComputerResponse(attacker, defender);
       } if (attacker.type === 'magical') {
           spellBreak(attacker, defender);
           dodgeMe(attacker, defender);
           battleResolution(attacker, defender);
           battleEnd(attacker, defender);
           opponentHealthCheck(defender);
+          triggerComputerResponse(attacker, defender);
         }
     }
   }
-
-
 }
 
 function blockAttack(defender) {
@@ -556,9 +566,8 @@ if (buttonFightTrigger && heroNameInput && heroProfessionInput) {
     var opponent = function() {
       return (opponents[Math.floor(Math.random()*opponents.length)])
     };
-    // console.log(heroName + heroProfession);
     //battle(hero, opponent());
-    battle(hero, healGuy);
+    battle(hero, abigail);
   });
 }
 
@@ -570,20 +579,53 @@ function computerResponse(hero, computer){
   var response = Math.floor(Math.random()*100);
 
   if (computer.health >= 50) {
-    if (response < 0) {
-      fighterAttacks(computer, hero);
-    } else if (response < 0) {
-      opponentChoosesSpecialAbility("offensive");
-    } else {
-      opponentChoosesSpecialAbility("defensive");
+    if (response < 60) {
+      // 60% chance to trigger
+      compAttackButtonTrigger.click();
+    } else if (response < 80) {
+        // 20% chance to trigger
+      if (verifySpecialAbilities("offensive")) {
+        opponentChoosesSpecialAbility("offensive");
+      } else {
+        compAttackButtonTrigger.click();
+      }
+    } else if (response < 95) {
+      // 15% chance to trigger
+      if (verifySpecialAbilities("utility")) {
+        opponentChoosesSpecialAbility("utility");
+      } else if (verifySpecialAbilities("defensive")) {
+        opponentChoosesSpecialAbility("defensive");
+      } else {
+        compAttackButtonTrigger.click();
+      }
+    } else if (response < 100) {
+      // 5% chance to trigger
+      if (verifySpecialAbilities("defensive")) {
+        opponentChoosesSpecialAbility("defensive");
+      } else if (verifySpecialAbilities("utility")) {
+        opponentChoosesSpecialAbility("utility");
+      } else {
+        compAttackButtonTrigger.click();
+      }
     }
   } else {
+    // health is less than 50
     if (response < 60) {
-      //defensive special
+      if (verifySpecialAbilities("defensive")) {
+        opponentChoosesSpecialAbility("defensive");
+      } else if (verifySpecialAbilities("utility")) {
+        opponentChoosesSpecialAbility("utility");
+      } else {
+        compAttackButtonTrigger.click();
+      }
     } else if (response < 90) {
-      //fighterAttacks(fighter2, fighter1);
+      compAttackButtonTrigger.click();
     } else {
-      // offensive special
+      if (verifySpecialAbilities("offensive")) {
+        opponentChoosesSpecialAbility("offensive");
+      } else {
+        compAttackButtonTrigger.click();
+      }
     }
   }
 }
@@ -597,7 +639,21 @@ function opponentChoosesSpecialAbility(abilityType) {
     targetAbility = getOpponentDivButton.children[targetAbilityIndex];
   } while (!(targetAbility.classList.contains(abilityType + "-ability")));
   targetAbility.click();
+}
 
+function verifySpecialAbilities(abilityType) {
+  for (var i = 0; i < getOpponentDivButton.childNodes.length; i++) {
+    if (getOpponentDivButton.children[i].classList.contains(abilityType + "-ability")) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function triggerComputerResponse(attacker, defender) {
+  if(attacker.isHero === true){
+    computerResponse(attacker, defender);
+  }
 }
 
 /*================================
